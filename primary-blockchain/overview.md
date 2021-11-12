@@ -45,7 +45,7 @@ Verida is developing a protocol that enables micro-payments for data transaction
 - **Algorand:** Low cost. Strong, aligned community with enterprise focus. Still early in terms of projects building. Needs a deeper dive. Nona to provide support here with their Algorand experience.
 - **Polkadot:** Too expensive, too much overhead, too much pricing risk.
 
-Other L1 and L2's worth considering (not exhaustive):
+Other L1 and L2's that may be worth considering (not exhaustive):
 
 - Avalanche
 - Cosmos
@@ -54,6 +54,12 @@ Other L1 and L2's worth considering (not exhaustive):
 - Starknet
 - Ronin
  
-## Outcome
+## Initial research
 
-A table of short-listed projects with an explanation of how the project stacks up for each key requirement and other consideration.
+### Evaluate blockchain options
+
+Prepare a table of short-listed chains with an explanation of how the chain stacks up for each key requirement and any other considerations.
+
+### Proof of concept
+
+Develop a proof of concept (similar to the NEAR PoC) for the leading blockchain option that validates the assumptions made.
