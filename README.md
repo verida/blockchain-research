@@ -6,7 +6,7 @@ This is a living repository of research for the blockchain capabilities for the 
 
 1. **[DID registry](https://github.com/verida/did-server)** - A Verida DID method
 2. **[DID linkages](https://github.com/verida/blockchain-research/issues/11)** - Linking a Verida account to public blockchain addresses
-3. **VDA primary blockchain** - Research to determine the best blockchain for Verida's smart contracts
+3. **[VDA primary blockchain](https://github.com/verida/blockchain-research/blob/main/primary-blockchain/overview.md)** - Research to determine the best blockchain for Verida's smart contracts
 4. **VDA token contract** - ERC20 implementation of Verida token on Ethereum mainnet
 5. **VDA token release** - Ethereum mainnet smart contract for releasing VRD tokens to team, investors etc.
 6. **VDA token bridge** - Project for bridging the VRD token between Ethereum mainnet and the chosen VRD primary blockchain
