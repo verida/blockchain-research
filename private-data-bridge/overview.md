@@ -16,7 +16,7 @@ This technical capability is one part of the larger Verida Trust Framework
 - Efficient. Signatures can be efficiently be verified using built in encryption primatives (to minimize gas costs) supported by the most popular chains.
 - Data encoding. Verida protocol generates signed JSON data that must be decodable by the most popular chains.
 
-Note: Verida protocol signs data using `keccak256` hashing and `ed25519` signature scheme to maximise EVM compatibility.
+Note: Verida protocol signs data using `keccak256` hashing and `ed25519` signature scheme to maximise EVM compatibility. [Learn more](https://github.com/verida/did-server/blob/main/ARCHITECTURE.md#off-chain--on-chain-data-considerations)
 
 ## Initial research
 
