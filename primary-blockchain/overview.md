@@ -53,6 +53,8 @@ Other L1 and L2's that may be worth considering (not exhaustive):
 - Polygon
 - Starknet
 - Ronin
+- Fantom
+- OMG network
  
 ## Initial research
 
