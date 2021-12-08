@@ -54,7 +54,21 @@ Other L1 and L2's that may be worth considering (not exhaustive):
 - Starknet
 - Ronin
 - Fantom
-- OMG network
+- BOBA
+- Terra
+- Ronin
+- ArbitrumOne
+- Offchain Labs
+- Metis
+- Optimism
+- zkSync and zkSync2
+- StarkEx & StarkNet
+- Aztec
+- Immutable
+- LoopRing
+- ZKSwap
+- Aurora
+- Cosmos
  
 ## Initial research
 
