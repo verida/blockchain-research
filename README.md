@@ -19,6 +19,7 @@ This is a living repository of research for the blockchain capabilities for the 
 13. **Token rewards** - Provide token rewards to users based on proof of a performing a particular action
 14. **[Private data bridge](https://github.com/verida/blockchain-research/blob/main/private-data-bridge/overview.md)** - Enable off-chain private data to be used on-chain
 14. **Third party payments** - Facilitate guaranteed third party payments for data
+15. **NFT data** - Connect off chain data to an NFT for a variety of use cases
 
 ## Research Priorities - Q4 2021
 
