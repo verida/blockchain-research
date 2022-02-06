@@ -21,9 +21,18 @@ This is a living repository of research for the blockchain capabilities for the 
 14. **Third party payments** - Facilitate guaranteed third party payments for data
 15. **NFT data** - Connect off chain data to an NFT for a variety of use cases
 
-## Research Priorities - Q4 2021
+## Q4 2021
 
 1. DID registry (API complete)
 2. DID linkages (PoC underway)
 3. VDA primary blockchain (priority as it's the foundation for all blockchain development)
 4. Private data bridge (priority as it may impact the Verida protocol signature scheme)
+
+## Q1 2022
+
+1. Private data bridge
+2. VDA primary blockchain
+3. VDA token contract
+4. Interactions registry
+5. VDA token bridge
+
