@@ -31,8 +31,9 @@ This is a living repository of research for the blockchain capabilities for the 
 ## Q1 2022
 
 1. Private data bridge
-2. VDA primary blockchain
-3. VDA token contract
-4. Interactions registry
-5. VDA token bridge
+2. Decentralized DID Registry
+3. VDA primary blockchain
+4. VDA token contract
+5. Interactions registry
+6. VDA token bridge
 
