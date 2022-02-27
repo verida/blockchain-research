@@ -106,9 +106,78 @@ Verida has additional objectives around linking payments to data transfers and f
 
 ## Use cases
 
-- Message sending (discard message if not paid for vs routing the message via the payment network)
-- Data payments (Only access data if it's paid for)
-- Paying dApp developers and community stakers (Paying multiple parties at once)
+1. Instant micropayments
+2. Pay to send messages
+3. Paying dApp developers and community stakers
+4. Pay to access / unlock data
+5. A community pool can be funded from transaction fees
+6. Network participants can charge a transaction fee
+
+Use case (1) is critical for a MVP, while the other two use cases can come in the future. It's important to consider all the use cases when designing the architecture.
+
+## Technical Requirements
+
+Taking a closer look at these use cases, we have the following technical requirements:
+
+1. Low cost (< $0.001) and fast (< 0.5 sec) micropayments
+2. Private transactions between a sender and receiver
+3. Public transactions
+4. Atomic transactions that simultaneously trigger payment to multiple recipients
+5. Atomic transactions that simultaneously trigger payment and transfer of data
+6. Network level transaction fees
+7. Participant level transaction fees
+
+## Private Payments
+
+A direct, on chain, payment between Jane and Bob is not privacy preserving as there is a public record of account for every transaction on the blockchain.
+
+A direct payment channel betwen Jane and Bob can enable unlimited private transactions between the two, however there remains an on-chain settlement when the payment channel is closed. This hides the details of the transactions, but doesn't hide the fact transactions occurred between Jane and Bob.
+
+A payment channel network (ie: Bitcoin's Lightning network or Raiden Network) introduces the ability for unlimited intermediaries to participate in a transaction. This allows Jane and Bob to conduct payments with one or more parties in between, creating no direct connection between them.
+
+Any intermidiary that helps facilitate the transaction between Jane and Bob earns transaction fees.
+
+While this solutions seems ideal at first glance, this network of payment channels introduces significant technical complexity and routing infrastruture to identify the payment route between Jane and Bob.
+
+There is overhead and inefficieny introduced whereby each payment channel requires the same amount of value added by both party. A "super" node on a payment channel network needs to lock tokens for every channel they open, regardless of how much transaction volume goes through that channel.
+
+This implementation has no concept of linking payment to data transfer or a mechanism for one:many atomic transactions.
+
+## Privacy Preserving Payment Brokers
+
+This paper proposes an alternative architecture based on the concept of payment brokers.
+
+Under this model, Jane selects a payment broker (Broker J) to facilitate her transactions on the Verida payment network. Similarly, Bob selects a payment broker (Broker B) to facilitate his transactions.
+
+Jane -> Broker J -> Broker B -> Bob
+
+Jane opens a "private payment channel" with her payment broker by depositing tokens into a Verida smart contract and granting her broker access to those tokens. During a given time period (payment epoch), Jane can send and receive unlimited payments through her broker that remain within the balance of tokens deposited.
+
+Jane -> deposit tokens -> Channel(Jane <> Broker J)
+Bob -> deposit tokens -> Channel(Bob <> Broker B)
+
+Note: This payment channel is private in that it's not possible to see the amounts or final destination of the her transactions. It is still public that she has deposited tokens with a particular payment broker.
+
+Jane's payment broker deposits tokens into the same Verida smart contract to create a "public payment channel". The payment broker can facilitate transactions with any other "public payment channel" and any "private payment channel" that has deposited tokens with that broker.
+
+Broker J -> deposit tokens -> Channel(Public)
+Broker B -> deposit tokens -> Channel(Public)
+
+Transactions are facilitated by routing payments from Jane to her payment broker, who routes payment to Bob's payment broker, who then pays Bob. This works in a similar way to current payment channels and leverages hash locks to ensure payments are unlocked all at once.
+
+At the end of the payment epoch each payment broker settles their transactions on chain by debiting / crediting Jane (and any other linked private payment channels) and debiting / crediting any public channels the broker interacted with.
+
+### Benefits
+
+payment brokers introduce privacy, more efficient, minimize on chain transaction volume
+
+### Attack Vectors
+
+
+
+Jane maintains a private ledger of every transaction that debits / credits funds from her payment channel with her payment broker.
+
+Jane's payment broker maintains a public ledger of every transaction conducted.
 
 ## A Hybrid Solution
 
