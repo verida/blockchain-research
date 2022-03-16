@@ -151,12 +151,12 @@ Under this model, Jane selects a payment broker (Broker J) to facilitate her tra
 
 Jane -> Broker J -> Broker B -> Bob
 
-Jane opens a "private payment channel" with her payment broker by depositing tokens into a Verida smart contract and granting her broker access to those tokens. During a given time period (payment epoch), Jane can send and receive unlimited payments through her broker that remain within the balance of tokens deposited.
+Jane opens a "private payment channel" with her payment broker by depositing tokens into a Verida smart contract and granting her broker access to those tokens. During a given time period (Payment Epoch), Jane can send and receive unlimited payments through her broker that remain within the balance of tokens deposited.
 
-Jane -> deposit tokens -> Channel(Jane <> Broker J)
-Bob -> deposit tokens -> Channel(Bob <> Broker B)
+Jane -> deposit tokens -> Channel (Jane <> Broker J)
+Bob -> deposit tokens -> Channel (Bob <> Broker B)
 
-Note: This payment channel is private in that it's not possible to see the amounts or final destination of the her transactions. It is still public that she has deposited tokens with a particular payment broker.
+Note: This payment channel is private in that it's not possible to see the amounts or final destination of the her transactions. However, it is still public that she has deposited tokens with a particular payment broker.
 
 Jane's payment broker deposits tokens into the same Verida smart contract to create a "public payment channel". The payment broker can facilitate transactions with any other "public payment channel" and any "private payment channel" that has deposited tokens with that broker.
 
@@ -169,17 +169,108 @@ At the end of the payment epoch each payment broker settles their transactions o
 
 ### Benefits
 
-payment brokers introduce privacy, more efficient, minimize on chain transaction volume
+- Payment brokers introduce privacy, obfuscating the iniital sender and final recipient of a payment
+- Payments have a maximum of four peer-to-peer messages, making them very fast and efficient
+- On-chain transaction volume is significantly reduced
+- End users can deposit tokens in a single payment channel and then pay anyone on the network
 
-### Attack Vectors
+### Limitations
+
+- All transactions must be completed within a given Epoch
+- 
+
+## Technical Implementation
+
+The Payment Sender (Jane) maintains a private ledger of every transaction that debits / credits funds from her payment channel with her payment broker.
+
+Example ledger transaction:
+
+Example `pending` ledger transaction:
+
+```
+{
+    id: <string>,                       // GUID of the transaction
+    amount: <decimal>,                  // Transaction amount
+    balance: <decimal>,                 // Payment Sender balance in the state channel
+    previousId: <undefined | string>,   // ID of the previous pending transaction
+    timestamp: <string>                 // ISOXXXX GMT of transaction
+    signature: <string>                 // Signed hash of this object
+}
+```
+
+Example `completed` ledger transaction:
+
+```
+{
+    id: <string>,                       // GUID of the transaction (matches `pending`)
+    hash: <string>,                     // Hash of the relevant pending transaction
+    previousId: <undefined | string>    // ID of the previous completed transaction,
+    signature: <string>                 // Signed hash of this object
+}
+```
+
+Jane's Payment Broker maintains two ledgers. One contains a linked list of all `pending` transactions, while the other contains a linked list of all `completed` transactions.
+
+Example `pending` ledger transaction:
+
+```
+{
+    id: <string>,                       // GUID of the transaction
+    amount: <decimal>,                  // Transaction amount
+    balance: <decimal>,                 // Payment Sender balance in the state channel
+    from: <string>,                     // Payment Sender address
+    to: <string>,                       // Payment Broker address
+    recipient: <string>,                // Recipient address (Bob)
+    previousId: <undefined | string>,   // ID of the previous pending transaction
+    timestamp: <string>                 // ISOXXXX GMT of transaction
+}
+```
+
+Example `completed` ledger transaction:
+
+```
+{
+    id: <string>,                       // GUID of the transaction (matches `pending`)
+    hash: <string>,                     // Hash of the relevant pending transaction
+    balance: 
+    previousId: <undefined | string>    // ID of the previous completed transaction
+}
+```
+
+## Attack Vectors
+
+### Payment Sender (Jane)
+
+A malicious payment sender may attempt to:
+
+**1. Spend tokens they don't have**
+
+The Payment Broker maintains a source of truth regarding how many tokens have been spent by the Payment Sender within the current epoch. This is compared with the number of tokens deposited by the Payment Sender in the payment channel.
+
+The Payment Broker will not accept a payment request that exceeds the current balance of the Payent Sender.
+
+#### Payment Broker
+
+A malicious Payment Broker may attempt to:
+
+**1. Spend tokens they don't have**
+
+A Payment Broker must always remain net neutral. Every completed transaction granting them tokens must be matched with a completed transaction that distributes tokens to another address.
+
+*The smart contract ensures the amount of tokens sent equals the total number of tokens received.*
+
+**2. Avoid recording transactions**
+
+**Payment Recipient (Bob)**
+
+A payment recipient may:
+
+1. Be sent tokens, but not claim them
+
+---
 
 
-
-Jane maintains a private ledger of every transaction that debits / credits funds from her payment channel with her payment broker.
-
-Jane's payment broker maintains a public ledger of every transaction conducted.
-
-## A Hybrid Solution
+## A Hybrid MVP Solution
 
 Explore a hybrid centralized / decentralized solution; faster to implement, helps identify issues to help design long term decentralized solution.
 
